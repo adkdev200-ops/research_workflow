@@ -33,8 +33,8 @@ Each step feeds its output into the next through shared state. Checkpointing is 
 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/Agentic_AI.git
-cd Agentic_AI
+git clone https://github.com/adkdev200-ops/research_workflow
+cd research_workflow
 ```
 
 2. Create a virtual environment and install dependencies
