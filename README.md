@@ -33,7 +33,7 @@ Each step feeds its output into the next through shared state. Checkpointing is 
 1. Clone the repo
 
 ```bash
-git clone https://github.com/adkdev200-ops/research_workflow
+git clone https://github.com/adkdev200-ops/research_workflow.git
 cd research_workflow
 ```
 
