@@ -42,7 +42,7 @@ cd research_workflow
 ```bash
 python -m venv myenv
 source myenv/bin/activate
-pip install langchain langchain-ollama langchain-community langgraph pydantic python-dotenv
+pip install -r requirements.txt
 ```
 
 3. Set up your `.env` file with API keys
@@ -51,17 +51,23 @@ pip install langchain langchain-ollama langchain-community langgraph pydantic py
 TAVILY_API_KEY=your_tavily_key
 ```
 
-4. Open `research_workflow.ipynb` and run the cells
+4. Run the main script
 
-The model is currently set to `minimax-m3:cloud` via Ollama — swap it out for whatever model you prefer.
+```bash
+python main.py
+```
+
+The model is currently set to `minimax-m3:cloud` via Ollama — swap it out in `workflow.py` for whatever model you prefer.
 
 ## Usage
 
-Just change the topic in the last cell:
+When you run `main.py`, the script will prompt you for the required inputs:
 
-```python
-for item in research_model.stream({'title': 'Your research topic here'}, config=config, stream_mode='updates'):
-    print(item)
+```
+Enter number of searches the agent can do on a topic:
+3
+Enter the topic of research:
+Your research topic here
 ```
 
 The final report gets saved as a markdown file named after your topic (e.g., `your_research_topic_here.md`).
@@ -69,18 +75,19 @@ The final report gets saved as a markdown file named after your topic (e.g., `yo
 ## Project structure
 
 ```
-├── research_workflow.ipynb            # Main notebook — the full pipeline
+├── main.py                            # Main entry point to run the pipeline
+├── workflow.py                        # LangGraph workflow definitions
 ├── context_gatherer_system_prompt.txt # Prompt for query generation
 ├── synthesizer_system_prompt.txt      # Prompt for search result synthesis
 ├── planner_system_prompt.txt          # Prompt for report architecture planning
 ├── worker_system_prompt.txt           # Prompt for section writing
-├── .env                               # API keys (not tracked)
-└── output/                            # Generated research reports
+├── requirements.txt                   # Python dependencies
+└── .env                               # API keys (not tracked)
 ```
 
 ## Notes
 
-- The system prompts are stored as separate `.txt` files so they're easy to tweak without touching the notebook
+- The system prompts are stored as separate `.txt` files so they're easy to tweak without touching the Python code
 - Each worker does its own independent web search based on planner-assigned queries, so sections get fresh evidence rather than all pulling from the same initial results
 - The worker prompt enforces strict evidence discipline — no hallucinated facts, no invented quotes, mandatory inline citations
 - Report quality depends heavily on the LLM you're using. Stronger models = better planning and writing
